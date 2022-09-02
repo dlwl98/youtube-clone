@@ -1,0 +1,13 @@
+extends base
+include mixins/hashtags
+
+block content 
+  h3 #{video.meta.views} #{video.meta.views > 1 ? "views" : "view"}
+  div 
+    p=video.description
+    +hashtags(video.hashtags)
+    small=video.createdAt
+  br
+  a(href=`${video.id}/edit`) Edit video &rarr;
+  br
+  a(href=`${video.id}/delete`) Delete video &rarr;

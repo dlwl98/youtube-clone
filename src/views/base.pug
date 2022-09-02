@@ -1,0 +1,20 @@
+doctype html 
+html(lang="ko")
+  head 
+    title #{pageTitle} | Youtube
+    link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+  body 
+    header 
+      h1=pageTitle
+      nav 
+        ul 
+          li
+            a(href="/") HOME
+          li 
+            a(href="/videos/upload") UPLOAD
+          li 
+            a(href="/search") SEARCH
+    main
+      block content
+      br
+    include partials/footer

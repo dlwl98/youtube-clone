@@ -1,0 +1,9 @@
+extends base
+
+block content
+  h2 Update Video
+  form(method="POST")
+    input(name="title" placeholder="Video title" required type="text" maxlength=20 value=video.title)
+    input(name="description" placeholder="Video description" required type="text" maxlength=20 value=video.description)
+    input(name="hashtags" placeholder="Hashtags, separated by comma" required type="text" value=video.hashtags.map(word => word.substr(1)).join(', '))
+    input(type="submit", value="Save")
