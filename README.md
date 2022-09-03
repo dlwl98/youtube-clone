@@ -1,6 +1,6 @@
 # youtube clone
 
-globalRouter
+rootRouter
 / -> HOMEPAGE
 /join -> JOINPAGE
 /login -> LOGINPAGE

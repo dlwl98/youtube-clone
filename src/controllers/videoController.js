@@ -6,12 +6,8 @@ export const home = async (req, res) => {
   // Video.find({}, (error, videos) => {
   //   return res.render("home", { pageTitle: "Home", videos });
   // });
-  try {
-    const videos = await Video.find({}).sort({ createdAt: "desc" });
-    return res.render("home", { pageTitle: "Home", videos });
-  } catch {
-    return res.render("server-error");
-  }
+  const videos = await Video.find({}).sort({ createdAt: "desc" });
+  return res.render("home", { pageTitle: "Home", videos });
 };
 
 export const search = async (req, res) => {
@@ -26,24 +22,29 @@ export const search = async (req, res) => {
 export const watch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
-  if (!video) return res.render("404", { pageTitle: "Video not found" });
+  if (!video)
+    return res.status(404).render("404", { pageTitle: "Video not found" });
   return res.render("watch", { pageTitle: video.title, video });
 };
 
 export const getEdit = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
-  if (!video) return res.render("404", { pageTitle: "Video not found" });
+  if (!video)
+    return res.status(404).render("404", { pageTitle: "Video not found" });
   return res.render("edit", { pageTitle: `Edit: ${video.title}`, video });
 };
 
 export const postEdit = async (req, res) => {
   const { id } = req.params;
+  const { title, description, hashtags } = req.body;
   const video = await Video.exists({ id });
-  if (!video) return res.render("404", { pageTitle: "Video not found" });
+  if (!video)
+    return res.status(404).render("404", { pageTitle: "Video not found" });
   await Video.findByIdAndUpdate(id, {
-    ...req.body,
-    hashtags: Video.formatHashtags(req.body.hashtags),
+    title,
+    description,
+    hashtags: Video.formatHashtags(hashtags),
   });
   return res.redirect(`/videos/${id}`);
 };
@@ -62,7 +63,7 @@ export const postUpload = async (req, res) => {
     });
     return res.redirect("/");
   } catch (error) {
-    return res.render("upload", {
+    return res.status(400).render("upload", {
       pageTitle: "Upload video",
       errorMsg: error._message,
     });
