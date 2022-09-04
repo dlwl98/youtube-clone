@@ -14,10 +14,14 @@ html(lang="ko")
             a(href="/videos/upload") UPLOAD
           li 
             a(href="/search") SEARCH
-          li
-            a(href="/login") LOGIN
-          li
-            a(href="/join") JOIN
+          if loggedIn 
+            li 
+              a(href="/logout") LOGOUT
+          else 
+            li
+              a(href="/login") LOGIN
+            li
+              a(href="/join") JOIN
     main
       block content
       br
