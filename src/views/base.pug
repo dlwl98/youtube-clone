@@ -17,6 +17,8 @@ html(lang="ko")
           if loggedIn 
             li 
               a(href="/logout") LOGOUT
+            li 
+              a(href="/my-profile") #{loggedInUser.name ? `${loggedInUser.name}의 프로필` : "닉네임이 없어요"}
           else 
             li
               a(href="/login") LOGIN
