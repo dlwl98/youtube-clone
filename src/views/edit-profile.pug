@@ -1,0 +1,15 @@
+extends base
+
+block content
+  if errorMsg
+    span=errorMsg
+  form(method="POST")
+    label(for="name") Name
+    input(type="text" name="name" value=loggedInUser.name)
+    label(for="email") Email
+    input(type="email" required name="email" value=loggedInUser.email)
+    label(for="username") Username
+    input(type="text" required name="username" value=loggedInUser.username disabled)
+    label(for="location") Location
+    input(type="text" name="location" value=loggedInUser.location)
+    input(type="submit" value="Update Profile")

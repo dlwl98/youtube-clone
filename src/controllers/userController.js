@@ -46,7 +46,7 @@ export const postLogin = async (req, res) => {
   const { username, password } = req.body;
   const pageTitle = "Login";
   // Confirm username
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username, socialOnly: false });
   if (!user) {
     return res.status(400).render("login", {
       pageTitle,
@@ -132,34 +132,59 @@ export const finishGithubLogin = async (req, res) => {
     }
 
     // 해당 이메일을 가진 유저가 있으면 그 유저로 로그인 시키고 없다면 새로 만듦
-    const existingUser = await User.findOne({ email: emailObj.email });
-    if (existingUser) {
-      // 로그인 성공
-      req.session.loggedIn = true;
-      req.session.user = existingUser;
-      return res.redirect("/");
-    } else {
-      const newUser = await User.create({
+    let user = await User.findOne({ email: emailObj.email });
+    if (!user) {
+      user = await User.create({
         socialOnly: true,
+        avatarUrl: githubUser.avatar_url,
         name: githubUser.name === null ? "" : githubUser.name,
         email: emailObj.email,
         username: githubUser.login,
         password: "",
         location: githubUser.location === null ? "" : githubUser.location,
       });
-      req.session.loggedIn = true;
-      req.session.user = newUser;
-      return res.redirect("/");
     }
+    req.session.loggedIn = true;
+    req.session.user = user;
+    return res.redirect("/");
   } else {
     return res.redirect("/login");
   }
 };
 
-export const logout = (req, res) => res.send("LOGOUT");
+export const logout = (req, res) => {
+  req.session.destroy();
+  return res.redirect("/");
+};
+
+export const getEdit = (req, res) => {
+  return res.render("edit-profile", { pageTitle: "Edit Profile" });
+};
+
+export const postEdit = async (req, res) => {
+  const { name, email, location } = req.body;
+  const beforeUserData = { ...req.session.user };
+  const pageTitle = "Edit Profile";
+
+  if (beforeUserData.email !== email) {
+    if (beforeUserData.socialOnly) {
+      return res.status(400).render("edit-profile", {
+        pageTitle,
+        errorMsg: "Cannot edit your social email.",
+      });
+    }
+    if (await User.exists({ email })) {
+      return res.status(400).render("edit-profile", {
+        pageTitle,
+        errorMsg: "The modified email is already exists.",
+      });
+    }
+  }
+  req.session.user = { ...beforeUserData, name, email, location };
+  await User.findByIdAndUpdate(beforeUserData._id, req.session.user);
+  return res.redirect("/users/edit");
+};
 
 export const see = (req, res) => res.send("SEE USER");
-
-export const edit = (req, res) => res.send("EDIT USER");
 
 export const deleteUser = (req, res) => res.send("DELETE USER");

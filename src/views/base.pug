@@ -16,9 +16,9 @@ html(lang="ko")
             a(href="/search") SEARCH
           if loggedIn 
             li 
-              a(href="/logout") LOGOUT
+              a(href="/users/edit") #{loggedInUser.name ? `${loggedInUser.name}의 프로필` : "닉네임을 만들어 주세요"}
             li 
-              a(href="/my-profile") #{loggedInUser.name ? `${loggedInUser.name}의 프로필` : "닉네임이 없어요"}
+              a(href="/users/logout") LOGOUT
           else 
             li
               a(href="/login") LOGIN
