@@ -165,7 +165,9 @@ export const postEdit = async (req, res) => {
   const {
     session: { user },
     body: { name, email, location },
+    file,
   } = req;
+  console.log(file);
   const pageTitle = "Edit Profile";
 
   if (user.email !== email) {
@@ -184,7 +186,7 @@ export const postEdit = async (req, res) => {
   }
   const updatedUser = await User.findByIdAndUpdate(
     user._id,
-    { name, email, location },
+    { avatarUrl: file ? file.path : user.avatarUrl, name, email, location },
     { new: true }
   );
   req.session.user = updatedUser;
