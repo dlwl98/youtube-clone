@@ -167,7 +167,6 @@ export const postEdit = async (req, res) => {
     body: { name, email, location },
     file,
   } = req;
-  console.log(file);
   const pageTitle = "Edit Profile";
 
   if (user.email !== email) {

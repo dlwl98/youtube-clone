@@ -2,6 +2,7 @@ extends base
 include mixins/hashtags
 
 block content 
+  video(src=video.fileUrl, controls, width="100%")
   h3 #{video.meta.views} #{video.meta.views > 1 ? "views" : "view"}
   div 
     p=video.description

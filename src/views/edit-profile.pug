@@ -5,7 +5,7 @@ block content
     span=errorMsg
   form(method="POST" enctype="multipart/form-data")
     label(for="avatar") Avatar 
-    img(src=loggedInUser.avatarUrl width="100px" height="100px")
+    img(src=loggedInUser.avatarUrl height="100px")
     input(type="file" id="avatar" name="avatar"  accept="image/*")
     label(for="name") Name
     input(type="text" id="name" name="name" value=loggedInUser.name)

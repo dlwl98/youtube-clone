@@ -10,12 +10,12 @@ import {
   getChangePassword,
   postChangePassword,
 } from "../controllers/userController";
-import { checkLogin, checkLogout, uploadFiles } from "../middlewares";
+import { checkLogin, checkLogout, avatarUpload } from "../middlewares";
 
 const userRouter = express.Router();
 
 // middlewares
-userRouter.use("/uploads", express.static("uploads"));
+userRouter.use("/upload-files", express.static("upload-files"));
 
 // routers
 userRouter.get("/:id(\\d+)", see);
@@ -26,7 +26,7 @@ userRouter
   .route("/edit")
   .all(checkLogin)
   .get(getEdit)
-  .post(uploadFiles.single("avatar"), postEdit);
+  .post(avatarUpload.single("avatar"), postEdit);
 userRouter
   .route("/change-password")
   .all(checkLogin)

@@ -20,4 +20,12 @@ export const checkLogout = (req, res, next) => {
   return res.redirect("/");
 };
 
-export const uploadFiles = multer({ dest: "uploads/" });
+export const avatarUpload = multer({
+  dest: "upload-files/avatars/",
+  limits: { fileSize: 3000000 },
+});
+
+export const videoUpload = multer({
+  dest: "upload-files/videos/",
+  limits: { fileSize: 10000000 },
+});
