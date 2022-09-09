@@ -13,3 +13,6 @@ block content
     label(for="location") Location
     input(type="text" name="location" value=loggedInUser.location)
     input(type="submit" value="Update Profile")
+  if !loggedInUser.socialOnly
+    br
+    a(href="change-password") Change Password &rarr;

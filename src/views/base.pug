@@ -11,10 +11,10 @@ html(lang="ko")
           li
             a(href="/") HOME
           li 
-            a(href="/videos/upload") UPLOAD
-          li 
             a(href="/search") SEARCH
           if loggedIn 
+            li 
+              a(href="/videos/upload") UPLOAD
             li 
               a(href="/users/edit") #{loggedInUser.name ? `${loggedInUser.name}의 프로필` : "닉네임을 만들어 주세요"}
             li 

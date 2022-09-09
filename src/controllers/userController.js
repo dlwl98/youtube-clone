@@ -162,12 +162,14 @@ export const getEdit = (req, res) => {
 };
 
 export const postEdit = async (req, res) => {
-  const { name, email, location } = req.body;
-  const beforeUserData = { ...req.session.user };
+  const {
+    session: { user },
+    body: { name, email, location },
+  } = req;
   const pageTitle = "Edit Profile";
 
-  if (beforeUserData.email !== email) {
-    if (beforeUserData.socialOnly) {
+  if (user.email !== email) {
+    if (user.socialOnly) {
       return res.status(400).render("edit-profile", {
         pageTitle,
         errorMsg: "Cannot edit your social email.",
@@ -180,9 +182,55 @@ export const postEdit = async (req, res) => {
       });
     }
   }
-  req.session.user = { ...beforeUserData, name, email, location };
-  await User.findByIdAndUpdate(beforeUserData._id, req.session.user);
+  const updatedUser = await User.findByIdAndUpdate(
+    user._id,
+    { name, email, location },
+    { new: true }
+  );
+  req.session.user = updatedUser;
   return res.redirect("/users/edit");
+};
+
+export const getChangePassword = (req, res) => {
+  if (req.session.user.socialOnly) {
+    return res.redirect("/");
+  }
+  return res.render("change-password", { pageTitle: "Change Password" });
+};
+
+export const postChangePassword = async (req, res) => {
+  const {
+    session: {
+      user: { _id, password },
+    },
+    body: { oldPassword, newPassword, newPasswordConfirm },
+  } = req;
+  const pageTitle = "Change Password";
+
+  const passwordMatch = await bcrypt.compare(oldPassword, password);
+  if (!passwordMatch) {
+    return res
+      .status(400)
+      .render("change-password", { pageTitle, errorMsg: "Wrong password." });
+  }
+
+  if (newPassword !== newPasswordConfirm) {
+    return res.status(400).render("change-password", {
+      pageTitle,
+      errorMsg: "Password Confirm failed.",
+    });
+  }
+  if (oldPassword === newPassword) {
+    return res.status(400).render("change-password", {
+      pageTitle,
+      errorMsg: "Same as old password.",
+    });
+  }
+
+  const user = await User.findById(_id);
+  user.password = newPassword;
+  await user.save();
+  return res.redirect("/users/logout");
 };
 
 export const see = (req, res) => res.send("SEE USER");

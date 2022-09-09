@@ -7,6 +7,8 @@ import {
   deleteUser,
   startGithubLogin,
   finishGithubLogin,
+  getChangePassword,
+  postChangePassword,
 } from "../controllers/userController";
 import { checkLogin, checkLogout } from "../middlewares";
 
@@ -17,6 +19,11 @@ userRouter.get("/github/start", checkLogout, startGithubLogin);
 userRouter.get("/github/finish", checkLogout, finishGithubLogin);
 userRouter.get("/logout", checkLogin, logout);
 userRouter.route("/edit").all(checkLogin).get(getEdit).post(postEdit);
+userRouter
+  .route("/change-password")
+  .all(checkLogin)
+  .get(getChangePassword)
+  .post(postChangePassword);
 userRouter.get("/delete", deleteUser);
 
 export default userRouter;
