@@ -28,7 +28,7 @@ export const postJoin = async (req, res) => {
       name,
       email,
       username,
-      password,
+      password: await User.hashPassword(password),
       location,
     });
     return res.redirect("/login");
@@ -50,13 +50,13 @@ export const postLogin = async (req, res) => {
   if (!user) {
     return res.status(400).render("login", {
       pageTitle,
-      errorMsg: "An account with this username does not exists.",
+      errorMsg: "This username does not exists.",
     });
   }
   // Confirm password
   const match = await bcrypt.compare(password, user.password);
   if (!match) {
-    return res.status(400).render("login", {
+    return res.status(403).render("login", {
       pageTitle,
       errorMsg: "Wrong password",
     });
@@ -171,7 +171,7 @@ export const postEdit = async (req, res) => {
 
   if (user.email !== email) {
     if (user.socialOnly) {
-      return res.status(400).render("edit-profile", {
+      return res.status(403).render("edit-profile", {
         pageTitle,
         errorMsg: "Cannot edit your social email.",
       });
@@ -211,39 +211,43 @@ export const postChangePassword = async (req, res) => {
   const passwordMatch = await bcrypt.compare(oldPassword, password);
   if (!passwordMatch) {
     return res
-      .status(400)
+      .status(403)
       .render("change-password", { pageTitle, errorMsg: "Wrong password." });
   }
 
   if (newPassword !== newPasswordConfirm) {
-    return res.status(400).render("change-password", {
+    return res.status(403).render("change-password", {
       pageTitle,
       errorMsg: "Password Confirm failed.",
     });
   }
   if (oldPassword === newPassword) {
-    return res.status(400).render("change-password", {
+    return res.status(403).render("change-password", {
       pageTitle,
       errorMsg: "Same as old password.",
     });
   }
 
-  const user = await User.findById(_id);
-  user.password = newPassword;
-  await user.save();
+  await User.findByIdAndUpdate(_id, {
+    password: await User.hashPassword(newPassword),
+  });
+
+  // const user = await User.findById(_id);
+  // user.password = await User.hashPassword(newPassword);
+  // await user.save();
   return res.redirect("/users/logout");
 };
 
 export const see = async (req, res) => {
   const { id } = req.params;
-  const user = await User.findById(id);
+  const user = await User.findById(id).populate("videos");
   if (!user) {
-    return res.status(404).render("404");
+    return res.status(404).render("404", { pageTitle: "User not found" });
   }
   return res.render("profile", {
     pageTitle: "Profile",
     user,
-    isMine: id === req.session.user._id,
+    isMine: id === (req.session.user && req.session.user._id),
   });
 };
 
