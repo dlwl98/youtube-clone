@@ -1,0 +1,12 @@
+extends base
+
+block content
+  div
+    h3 USERNAME : #{user.username || "NONE"}
+    img(src=user.avatarUrl height="100px")
+    h3 NAME : #{user.name || "NONE"}
+    h4 EMAIL : #{user.email || "NONE"}
+    h4 LOCATION : #{user.location || "NONE"}
+  br
+  if isMine
+    a(href="edit") Edit Profile &rarr;

@@ -18,7 +18,7 @@ const userRouter = express.Router();
 userRouter.use("/upload-files", express.static("upload-files"));
 
 // routers
-userRouter.get("/:id(\\d+)", see);
+userRouter.get("/:id([0-9a-f]{24})", see);
 userRouter.get("/github/start", checkLogout, startGithubLogin);
 userRouter.get("/github/finish", checkLogout, finishGithubLogin);
 userRouter.get("/logout", checkLogin, logout);

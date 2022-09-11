@@ -189,7 +189,7 @@ export const postEdit = async (req, res) => {
     { new: true }
   );
   req.session.user = updatedUser;
-  return res.redirect("/users/edit");
+  return res.redirect(`/users/${user._id}`);
 };
 
 export const getChangePassword = (req, res) => {
@@ -234,6 +234,17 @@ export const postChangePassword = async (req, res) => {
   return res.redirect("/users/logout");
 };
 
-export const see = (req, res) => res.send("SEE USER");
+export const see = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  if (!user) {
+    return res.status(404).render("404");
+  }
+  return res.render("profile", {
+    pageTitle: "Profile",
+    user,
+    isMine: id === req.session.user._id,
+  });
+};
 
 export const deleteUser = (req, res) => res.send("DELETE USER");
