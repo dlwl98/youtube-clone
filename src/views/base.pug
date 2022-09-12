@@ -2,29 +2,12 @@ doctype html
 html(lang="ko")
   head 
     title #{pageTitle} | Youtube
-    link(rel="stylesheet" href="https://unpkg.com/mvp.css")
+    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css")
+    link(rel="stylesheet" href="/static/css/styles.css")
   body 
-    header 
-      h1=pageTitle
-      nav 
-        ul 
-          li
-            a(href="/") HOME
-          li 
-            a(href="/search") SEARCH
-          if loggedIn 
-            li 
-              a(href="/videos/upload") UPLOAD
-            li 
-              a(href=`/users/${loggedInUser._id}`) #{loggedInUser.name ? `${loggedInUser.name}'S PROFILE` : "MY PROFILE"}
-            li 
-              a(href="/users/logout") LOGOUT
-          else 
-            li
-              a(href="/login") LOGIN
-            li
-              a(href="/join") JOIN
+    include partials/header
     main
       block content
       br
     include partials/footer
+  script(src="/static/js/main.js")
