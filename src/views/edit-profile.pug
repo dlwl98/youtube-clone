@@ -5,7 +5,8 @@ block content
     span=errorMsg
   form(method="POST" enctype="multipart/form-data")
     label(for="avatar") Avatar 
-    img(src=loggedInUser.avatarUrl height="100px")
+    div.avatar
+      img(src=loggedInUser.avatarUrl)
     input(type="file" id="avatar" name="avatar"  accept="image/*")
     label(for="name") Name
     input(type="text" id="name" name="name" value=loggedInUser.name)
@@ -15,7 +16,7 @@ block content
     input(type="text" required id="username" name="username" value=loggedInUser.username disabled)
     label(for="location") Location
     input(type="text" id="location" name="location" value=loggedInUser.location)
-    input(type="submit" value="Update Profile")
+    input(type="submit" value="Update Profile").update__profile
   if !loggedInUser.socialOnly
-    br
-    a(href="change-password") Change Password &rarr;
+    div.edit-profile__password
+      a(href="change-password") Change Password &rarr;

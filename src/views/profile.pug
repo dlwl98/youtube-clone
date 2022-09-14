@@ -2,16 +2,21 @@ extends base
 include mixins/video
 
 block content
-  div
-    h3 USERNAME : #{user.username || "NONE"}
-    img(src=user.avatarUrl height="100px")
-    h3 NAME : #{user.name || "NONE"}
-    h4 EMAIL : #{user.email || "NONE"}
-    h4 LOCATION : #{user.location || "NONE"}
-  br
-  if isMine
-    a(href="edit") Edit Profile &rarr;
-  hr
-  div
+  div.profile__data
+    div.avatar
+      img(src=user.avatarUrl)
+    h3 
+      p #{user.name || "NONE"}
+    h3 
+      p #{user.email || "NONE"}
+    h3 
+      p #{user.username || "NONE"}
+    h3 
+      p #{user.location || "NONE"}
+    if isMine
+      button(onclick = "location.href = 'edit'") Edit Profile &rarr;
+  div.video-grid
     each video in user.videos
       +video(video)
+    else
+      span.empty__message No videos found

@@ -5,8 +5,15 @@
 // components
 @import "./components/header.scss";
 @import "./components/footer.scss";
+@import "./components/forms.scss";
+@import "./components/shared.scss";
+@import "./components/social-login.scss";
+@import "./components/video.scss";
 
 // screens
+@import "./screens/edit-profile.scss";
+@import "./screens/profile.scss";
+@import "./screens/search.scss";
 
 // defaults
 body {
@@ -17,5 +24,11 @@ body {
   a {
     color: inherit;
     text-decoration: none;
+  }
+  main {
+    max-width: 1200px;
+    width: 95%;
+    margin: 0 auto;
+    margin-top: 50px;
   }
 }

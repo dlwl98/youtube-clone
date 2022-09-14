@@ -1,5 +1,6 @@
 /node_modules
 /upload-files
 /assets
+/images
 .env
 .DS_store
