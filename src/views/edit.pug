@@ -2,7 +2,10 @@ extends base
 
 block content
   form(method="POST")
+    label Title
     input(name="title" placeholder="Video title" required type="text" maxlength=20 value=video.title)
+    label Description
     input(name="description" placeholder="Video description" required type="text" maxlength=20 value=video.description)
+    label Hashtags
     input(name="hashtags" placeholder="Hashtags, separated by comma" required type="text" value=video.hashtags.map(word => word.substr(1)).join(', '))
     input(type="submit", value="Save")

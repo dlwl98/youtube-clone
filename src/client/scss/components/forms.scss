@@ -34,3 +34,36 @@ input[type="submit"],
   cursor: pointer;
   display: block;
 }
+
+.filebox {
+  display: flex;
+  label {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    padding: 1px 20px;
+    color: #6d6d6d;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #fdfdfd;
+    cursor: pointer;
+    border-radius: 0.25em;
+  }
+  .input__file {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+}
+
+.input__filename {
+  width: 60%;
+  margin-right: 10px;
+}

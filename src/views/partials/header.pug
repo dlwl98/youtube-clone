@@ -10,9 +10,15 @@ header
         li 
           a(href="/videos/upload") UPLOAD
         li 
-          a(href=`/users/${loggedInUser._id}`) #{loggedInUser.name ? `${loggedInUser.name}'S PROFILE` : "MY PROFILE"}
-        li 
           a(href="/users/logout") LOGOUT
+        li 
+          a(href=`/users/${loggedInUser._id}`)
+            if loggedInUser.avatarUrl === ""
+              span.material-symbols-outlined person
+            else
+              img(src=(loggedInUser.avatarUrl.split("/")[0] === "https:" 
+                  ? loggedInUser.avatarUrl 
+                  : "/users/" + loggedInUser.avatarUrl)).header__avatar
       else 
         li
           a(href="/login") LOGIN

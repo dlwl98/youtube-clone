@@ -1,10 +1,18 @@
 include hashtags
 
 mixin video(video)
-  a(href=`/videos/${video.id}`).video-mixin
-        div.video-mixin__thumb
-        div.video-mixin__data
-            span.video-mixin__title=video.title
-            div.video-mixin__meta
-                span #{video.owner.name} • 
-                span #{video.meta.views} 회
+  div.video-mixin
+    a(href=`/videos/${video.id}`)
+      div.video-mixin__thumb
+    div.video-mixin__data
+      a(href=`/users/${video.owner.id}`)
+        img(src=(video.owner.avatarUrl.split("/")[0] === "https:" 
+            ? video.owner.avatarUrl 
+            : "/users/" + video.owner.avatarUrl)).video__avatar
+      div.video-mixin__meta
+        a(href=`/videos/${video.id}`)
+          span.video-mixin__title=video.title
+        div.video-mixin__info
+          a(href=`/users/${video.owner.id}`)
+            span #{video.owner.name || video.owner.username} • 
+          span #{video.meta.views} 회

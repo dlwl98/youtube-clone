@@ -8,7 +8,7 @@ block content
     p=video.description
     +hashtags(video.hashtags)
     p Uploaded by 
-      a(href=`/users/${video.owner._id}`)=video.owner.username
+      a(href=`/users/${video.owner._id}`) #{video.owner.name || video.owner.username}
     br
     small=video.createdAt
   if String(video.owner._id) === loggedInUser._id

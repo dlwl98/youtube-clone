@@ -4,8 +4,10 @@ block content
   if errorMsg 
     span=errorMsg
   form(method="POST" enctype="multipart/form-data")
-    label(for="video") Video File
-    input(type="file" id="video" name="video" accept="video/*" required)
+    div.filebox
+      input(placeholder="Selected file" type="text" disabled).input__filename
+      label(for="video") Select file
+      input(type="file" id="video" name="video" accept="video/*" required).input__file
     input(name="title" placeholder="Video title" required type="text" maxlength=20)
     input(name="description" placeholder="Video description" required type="text" maxlength=20)
     input(name="hashtags" placeholder="Hashtags, separated by comma" required type="text")

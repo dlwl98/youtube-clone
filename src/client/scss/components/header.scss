@@ -13,7 +13,7 @@ header {
     justify-content: space-between;
     align-items: center;
     li {
-      margin-left: 30px;
+      margin-left: 20px;
       font-size: 14px;
       font-weight: 600;
       text-transform: uppercase;
@@ -27,5 +27,11 @@ header {
     color: $bg;
     padding: 5px 10px;
     border-radius: 5px;
+  }
+  .header__avatar {
+    height: 25px;
+    width: 25px;
+    display: flex;
+    border-radius: 50%;
   }
 }
