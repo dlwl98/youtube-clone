@@ -2,20 +2,41 @@ extends base
 include mixins/hashtags
 
 block content 
-  video(src=video.fileUrl, controls, width="100%")
-  h3 #{video.meta.views} #{video.meta.views > 1 ? "views" : "view"}
-  div 
-    p=video.description
-    +hashtags(video.hashtags)
-    p Uploaded by 
-      a(href=`/users/${video.owner._id}`) #{video.owner.name || video.owner.username}
-    br
-    small=video.createdAt
-  if String(video.owner._id) === loggedInUser._id
-    br
-    a(href=`${video.id}/edit`) Edit video &rarr;
-    br
-    a(href=`${video.id}/delete`) Delete video &rarr;
+  div#video__container
+    video(src=video.fileUrl, width="100%")#main-video
+    div#video__controls.hide
+      div#time__range
+        div.input__range
+          input(type="range" min="0" step="0.1" value="0").input__range-share#time__range-visible
+          input(type="range" min="0" step="0.1" value="0").input__range-share.input__range-invisible#time__range-invisible
+      div#video__buttons
+        div
+          span#play-btn
+            i.fas.fa-play
+          span#mute-btn
+            i.fas.fa-volume-up
+          div.input__range
+            input(type="range" min="0" max="1" step="0.1" value="0.5").input__range-share#volume__range-visible
+            input(type="range" min="0" max="1" step="0.1" value="0.5").input__range-share.input__range-invisible#volume__range-invisible
+          div#time
+            span#current-time 00:00
+            span &nbsp;/&nbsp;
+            span#total-time 00:00
+        span#fullscreen-btn
+          i.fas.fa-expand
+  //- h3 #{video.meta.views} #{video.meta.views > 1 ? "views" : "view"}
+  //- div 
+  //-   p=video.description
+  //-   +hashtags(video.hashtags)
+  //-   p Uploaded by 
+  //-     a(href=`/users/${video.owner._id}`) #{video.owner.name || video.owner.username}
+  //-   br
+  //-   small=video.createdAt
+  //- if String(video.owner._id) === loggedInUser._id
+  //-   br
+  //-   a(href=`${video.id}/edit`) Edit video &rarr;
+  //-   br
+  //-   a(href=`${video.id}/delete`) Delete video &rarr;
 
 block scripts
   script(src="/static/js/videoPlayer.js")
