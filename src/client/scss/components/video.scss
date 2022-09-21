@@ -1,4 +1,7 @@
 .video-mixin {
+  #main-video {
+    display: none;
+  }
   .video-mixin__thumb {
     width: 100%;
     height: 180px;

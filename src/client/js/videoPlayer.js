@@ -29,7 +29,7 @@ const formatTime = (seconds) => {
 let volumeValue = 0.5;
 $mainVideo.volume = volumeValue;
 
-const handlePlayBtn = (event) => {
+const handlePlayBtn = () => {
   if ($mainVideo.paused) {
     $mainVideo.play();
   } else {
@@ -38,7 +38,7 @@ const handlePlayBtn = (event) => {
   $playBtnIcon.classList = $mainVideo.paused ? "fas fa-play" : "fas fa-pause";
 };
 
-const handleMuteBtn = (event) => {
+const handleMuteBtn = () => {
   $mainVideo.muted = !$mainVideo.muted;
   $muteBtnIcon.classList = $mainVideo.muted
     ? "fas fa-volume-mute"
@@ -49,6 +49,7 @@ const handleMuteBtn = (event) => {
 };
 
 $playBtn.addEventListener("click", handlePlayBtn);
+$mainVideo.addEventListener("click", handlePlayBtn);
 $muteBtn.addEventListener("click", handleMuteBtn);
 
 // 소리조절 바
@@ -78,9 +79,7 @@ const handleVolumeInvisible = (event) => {
 };
 
 $volumeRangeVisible.oninput = handleVolumeVisible;
-$volumeRangeVisible.onchange = handleVolumeVisible;
 $volumeRangeInvisible.oninput = handleVolumeInvisible;
-$volumeRangeInvisible.onchange = handleVolumeInvisible;
 
 // 시간 최신화
 const handleLoaded = () => {
@@ -88,6 +87,7 @@ const handleLoaded = () => {
   $totalTime.innerText = formatTime(Math.floor($mainVideo.duration * 10) / 10);
   $timeRangeVisible.max = $timeRangeInvisible.max =
     Math.floor($mainVideo.duration * 10) / 10;
+  handlePlayBtn();
 };
 const handleTimeupdate = () => {
   $currentTime.innerText = formatTime(
@@ -114,17 +114,16 @@ const handleTimeInvisible = (event) => {
 $mainVideo.addEventListener("loadedmetadata", handleLoaded);
 $mainVideo.addEventListener("timeupdate", handleTimeupdate);
 $timeRangeVisible.oninput = handleTimeVisible;
-$timeRangeVisible.onchange = handleTimeVisible;
 $timeRangeInvisible.oninput = handleTimeInvisible;
-$timeRangeInvisible.onchange = handleTimeInvisible;
 
 // 풀스크린
 const handleFullscreenBtn = () => {
-  if (document.fullscreenElement) {
-    document.exitFullscreen();
+  if (document.webkitFullscreenElement) {
+    console.log("asd");
+    document.webkitCancelFullScreen();
     $fullscreenBtnIcon.classList = "fas fa-expand";
   } else {
-    $videoContainer.requestFullscreen();
+    $videoContainer.webkitRequestFullScreen();
     $fullscreenBtnIcon.classList = "fas fa-compress";
   }
 };
@@ -134,6 +133,7 @@ const handleFullscreenChange = () => {
   }
 };
 $fullscreenBtn.addEventListener("click", handleFullscreenBtn);
+$mainVideo.addEventListener("dblclick", handleFullscreenBtn);
 $videoContainer.addEventListener("fullscreenchange", handleFullscreenChange);
 
 // 컨트롤러 사라지게
