@@ -87,7 +87,6 @@ const handleLoaded = () => {
   $totalTime.innerText = formatTime(Math.floor($mainVideo.duration * 10) / 10);
   $timeRangeVisible.max = $timeRangeInvisible.max =
     Math.floor($mainVideo.duration * 10) / 10;
-  handlePlayBtn();
 };
 const handleTimeupdate = () => {
   $currentTime.innerText = formatTime(
@@ -112,6 +111,7 @@ const handleTimeInvisible = (event) => {
 };
 
 $mainVideo.addEventListener("loadedmetadata", handleLoaded);
+$mainVideo.addEventListener("loadedmetadata", handlePlayBtn);
 $mainVideo.addEventListener("timeupdate", handleTimeupdate);
 $timeRangeVisible.oninput = handleTimeVisible;
 $timeRangeInvisible.oninput = handleTimeInvisible;
@@ -119,7 +119,6 @@ $timeRangeInvisible.oninput = handleTimeInvisible;
 // 풀스크린
 const handleFullscreenBtn = () => {
   if (document.webkitFullscreenElement) {
-    console.log("asd");
     document.webkitCancelFullScreen();
     $fullscreenBtnIcon.classList = "fas fa-expand";
   } else {
