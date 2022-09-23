@@ -3,7 +3,7 @@ include mixins/hashtags
 
 block content 
   div#video__container
-    video(width="100%")#main-video
+    video(width="100%" data-id=video._id)#main-video
       source(src=video.fileUrl type="video/mp4")
     div#video__controls.hide
       div#time__range

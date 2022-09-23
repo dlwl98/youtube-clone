@@ -155,3 +155,27 @@ const handleMouseLeave = () => {
 
 $videoContainer.addEventListener("mousemove", handleMouseMove);
 $videoContainer.addEventListener("mouseleave", handleMouseLeave);
+
+// 조회수 최신화
+const handleEnded = () => {
+  const { id } = $mainVideo.dataset;
+  fetch(`/api/videos/${id}/view`, { method: "POST" });
+};
+
+$mainVideo.addEventListener("ended", handleEnded);
+
+// 키보드 컨트롤
+const handleKeydown = (event) => {
+  event.preventDefault();
+  if (event.key === "ArrowRight" || event.keyCode === "ArrowRight") {
+    $mainVideo.currentTime += 10;
+  } else if (event.key === "ArrowLeft") {
+    $mainVideo.currentTime -= 10;
+  } else if (event.key === " ") {
+    handlePlayBtn();
+  } else if (event.key === "Enter") {
+    handleFullscreenBtn();
+  }
+};
+
+document.addEventListener("keydown", handleKeydown);

@@ -7,8 +7,12 @@
     "url": "git+https://github.com/dlwl98/youtube-clone.git"
   },
   "scripts": {
+    "start": "npm run build && node build/init.js",
+    "build": "npm run build:server && npm run build:client",
+    "build:server": "babel src -d build",
+    "build:client": "webpack --mode=production",
     "dev:server": "nodemon",
-    "dev:client": "webpack"
+    "dev:client": "webpack --mode=development --watch"
   },
   "author": "",
   "license": "MIT",
@@ -29,7 +33,8 @@
     "pug": "^3.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.13",
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.19.1",
     "@babel/node": "^7.18.10",
     "@babel/preset-env": "^7.18.10",
     "babel-loader": "^8.2.5",
