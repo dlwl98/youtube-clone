@@ -3,9 +3,9 @@ import "./db";
 import "./models/Video";
 import app from "./server";
 
-const PORT = 4000;
+const PORT = 80;
 const handleListening = () => {
-  console.log(`Server is Listening port ${4000} !!! 🔨`);
+  console.log(`Server is Listening port ${PORT} !!! 🔨`);
 };
 
 // Listening...
